@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# test pipline
 
 trigger:
 - master
@@ -21,3 +18,11 @@ steps:
 - script: shellcheck playbook-pack-init.sh
   continueOnError: false
   displayName: 'run shellcheck'
+- script: mkdir test
+  continueOnError: false
+  displayName: 'make test dir'
+- script: cd ./test
+  continueOnError: false
+  displayName: 'switch to test dir'
+- script: ls
+  displayName: 'list working dir'
