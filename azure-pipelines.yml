@@ -15,9 +15,9 @@ steps:
 - script: test -e ./playbook-pack-init.sh
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
-- bash: sudo apt-get install shellcheck
+- script: sudo apt-get install shellcheck
   continueOnError: false
   displayName: 'install shellcheck'
-- bash: shellcheck playbook-pack-init.sh
+- script: shellcheck playbook-pack-init.sh
   continueOnError: false
   displayName: 'run shellcheck'
