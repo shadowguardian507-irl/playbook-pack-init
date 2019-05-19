@@ -21,8 +21,6 @@ steps:
 - script: mkdir test
   continueOnError: false
   displayName: 'make test dir'
-- script: cd ./test
-  continueOnError: false
-  displayName: 'switch to test dir'
 - script: ls
+  workingDirectory: ./test
   displayName: 'list working dir'
