@@ -474,6 +474,8 @@ record_host_keys = False
 
 [ssh_connection]
 ssh_args=-o ForwardAgent=yes
+pipelining = True
+control_path = /tmp/ansible-ssh-%%h-%%p-%%r
 
 EOF
 
