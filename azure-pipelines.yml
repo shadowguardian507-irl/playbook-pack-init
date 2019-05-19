@@ -21,6 +21,9 @@ steps:
 - script: mkdir test
   continueOnError: false
   displayName: 'make test dir'
+- script: ../playbook-pack-init.sh -s
+  workingDirectory: ./test
+  displayName: 'run playbook-pack-init script'
 - script: ls
   workingDirectory: ./test
   displayName: 'list working dir'
