@@ -12,4 +12,6 @@ pool:
 steps:
 - script: ls
   displayName: 'list working dir'
+- script: test -e ./playbook-pack-init.shs
+  continueOnError: false
 
