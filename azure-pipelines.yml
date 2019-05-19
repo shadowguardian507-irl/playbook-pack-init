@@ -12,6 +12,12 @@ pool:
 steps:
 - script: ls
   displayName: 'list working dir'
-- script: test -e ./playbook-pack-init.shs
+- script: test -e ./playbook-pack-init.sh
   continueOnError: false
-
+  displayName: 'check playbook-pack-init script is present'
+- bash: apt-get install shellcheck
+  continueOnError: false
+  displayName: 'install shellcheck'
+- bash: shellcheck playbook-pack-init.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
