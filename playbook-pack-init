@@ -74,6 +74,14 @@ touch ./ConfigPacks/.gitkeep
 touch ./ConfigPacksVault/.gitkeep
 touch ./Plugins/.gitkeep
 
+touch ./playbookpack.meta
+cat << 'EOF' > ./playbookpack.meta
+
+PBPVersion: 2.0.1
+PBPCompatVersion: >2.x.1
+
+EOF
+
 chmod +x ./Launcher.sh
 cat << 'EOF' > ./Launcher.sh
 
