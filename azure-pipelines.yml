@@ -9,7 +9,7 @@ pool:
 steps:
 - script: ls
   displayName: 'list working dir'
-- script: test -e ./playbook-pack-init.sh
+- script: test -e ./playbook-pack-init
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 - script: shellcheck -V
