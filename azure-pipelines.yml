@@ -15,13 +15,13 @@ steps:
 - script: shellcheck -V
   continueOnError: false
   displayName: 'show shellcheck version'
-- script: shellcheck playbook-pack-init.sh
+- script: shellcheck playbook-pack-init
   continueOnError: false
   displayName: 'run shellcheck'
 - script: mkdir test
   continueOnError: false
   displayName: 'make test dir'
-- script: ../playbook-pack-init.sh -s
+- script: ../playbook-pack-init -s
   workingDirectory: ./test
   displayName: 'run playbook-pack-init script'
 - script: ls
