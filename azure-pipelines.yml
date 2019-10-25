@@ -27,3 +27,6 @@ steps:
 - script: ls
   workingDirectory: ./test
   displayName: 'list working dir'
+- script: ./Playbook.sh
+  workingDirectory: ./test
+  displayName: 'run the test playbook pack'
