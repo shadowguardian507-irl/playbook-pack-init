@@ -537,6 +537,13 @@ EOF
 
 touch ./Ansible/templates/base/hosts
 
+cat << 'EOF' > ./Ansible/templates/base/hosts
+
+[localhost]
+127.0.0.1  ansible_connection=local
+
+EOF
+
 echo "running stage 5 - example playbook and data"
 
 touch ./Ansible/templates/playbook/playbook.yml
