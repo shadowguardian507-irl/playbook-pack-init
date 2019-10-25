@@ -77,7 +77,7 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.0.1
+PBPVersion: 2.0.4
 PBPCompatVersion: >2.x.1
 
 EOF
@@ -293,10 +293,25 @@ echo "importing base config packs"
 cp -R ./ConfigPacks/base/. ./Ansible/instances/$uuid/configpacks
 echo "importing playbook config packs"
 cp -R ./ConfigPacks/playbook/. ./Ansible/instances/$uuid/configpacks
-echo "importing base vault locked config packs"
-cp -R ./ConfigPacksVault/base/. ./Ansible/instances/$uuid/configpacks
-echo "importing playbook vault locked config packs"
-cp -R ./ConfigPacksVault/playbook/. ./Ansible/instances/$uuid/configpacks
+
+if [ "$(ls ./ConfigPacksVault/base/)" ]; then
+  echo "importing base vault locked config packs"
+  cp -R ./ConfigPacksVault/base/. ./Ansible/instances/$uuid/configpacks
+  basepackvault=true
+else
+  echo "no vault locked config packs found in base config packs"
+  basepackvault=false
+fi
+
+if [ "$(ls ./ConfigPacksVault/playbook/)" ]; then
+  echo "importing playbook vault locked config packs"
+  cp -R ./ConfigPacksVault/playbook/. ./Ansible/instances/$uuid/configpacks
+  playbookpackvault=true
+else
+  echo "no vault locked config packs found in playbook config packs"
+  playbookpackvault=false
+fi
+
 echo "Accessing ansible instance ....."
 
 cd ./Ansible/instances/$uuid/
@@ -314,7 +329,23 @@ else
   echo "No modules file defined"
 fi
 
-ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml 
+if $playbookpackvault & $basepackvault
+then
+  ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml
+else
+  if $playbookpackvault
+  then
+    ansible-playbook --vault-id playbookvault@prompt  playbook.yml
+  else
+    ansible-playbook playbook.yml
+  fi
+  if $basepackvault
+  then
+    ansible-playbook --vault-id basevault@prompt  playbook.yml
+  else
+    ansible-playbook playbook.yml
+  fi
+fi
 
 cd ../../../
 rm -rf ./Ansible/instances/$uuid/
