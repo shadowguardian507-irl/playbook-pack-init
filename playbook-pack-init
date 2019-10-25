@@ -300,7 +300,20 @@ cp -R ./ConfigPacksVault/playbook/. ./Ansible/instances/$uuid/configpacks
 echo "Accessing ansible instance ....."
 
 cd ./Ansible/instances/$uuid/
-ansible-galaxy install -r requirements.yml --roles-path=roles
+
+if [ -f ./requirements.yml ]
+then
+  if [ -s ./requirements.yml ]
+  then
+    echo "Loading required modules"
+    ansible-galaxy install -r requirements.yml --roles-path=roles
+  else
+    echo "No modules to load"
+  fi
+else
+  echo "No modules file defined"
+fi
+
 ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml 
 
 cd ../../../
