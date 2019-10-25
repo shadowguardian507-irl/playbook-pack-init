@@ -77,7 +77,7 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.0.4
+PBPVersion: 2.0.5
 PBPCompatVersion: >2.x.1
 
 EOF
@@ -329,22 +329,25 @@ else
   echo "No modules file defined"
 fi
 
-if $playbookpackvault & $basepackvault
+if  $playbookpackvault && $basepackvault
 then
+  echo "both vaults active"
   ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml
 else
   if $playbookpackvault
   then
+    echo "playbook vault active"
     ansible-playbook --vault-id playbookvault@prompt  playbook.yml
   else
-    ansible-playbook playbook.yml
-  fi
-  if $basepackvault
-  then
-    ansible-playbook --vault-id basevault@prompt  playbook.yml
-  else
-    ansible-playbook playbook.yml
-  fi
+    if $basepackvault
+    then
+      echo "base vault active"
+      ansible-playbook --vault-id basevault@prompt  playbook.yml
+    else
+      echo "no vault active"
+      ansible-playbook playbook.yml
+    fi
+  fi 
 fi
 
 cd ../../../
