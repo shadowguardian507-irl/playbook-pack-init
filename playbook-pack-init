@@ -77,7 +77,7 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.0.5
+PBPVersion: 2.0.6
 PBPCompatVersion: >2.x.1
 
 EOF
@@ -283,32 +283,32 @@ uuid=$(uuidgen)
 uuid=${uuid^^}
 
 mkdir ./Ansible/instances/$uuid
-echo "importing base files/folders"
+echo "Importing base files/folders"
 cp -R ./Ansible/templates/base/.  ./Ansible/instances/$uuid
-echo "importing playbook spersific files/folders"
+echo "Importing playbook spersific files/folders"
 cp -R -f ./Ansible/templates/playbook/.  ./Ansible/instances/$uuid
 
 mkdir ./Ansible/instances/$uuid/configpacks
-echo "importing base config packs"
+echo "Importing base config packs"
 cp -R ./ConfigPacks/base/. ./Ansible/instances/$uuid/configpacks
-echo "importing playbook config packs"
+echo "Importing playbook config packs"
 cp -R ./ConfigPacks/playbook/. ./Ansible/instances/$uuid/configpacks
 
 if [ "$(ls ./ConfigPacksVault/base/)" ]; then
-  echo "importing base vault locked config packs"
+  echo "Importing base vault locked config packs"
   cp -R ./ConfigPacksVault/base/. ./Ansible/instances/$uuid/configpacks
   basepackvault=true
 else
-  echo "no vault locked config packs found in base config packs"
+  echo "No vault locked config packs found in base config packs"
   basepackvault=false
 fi
 
 if [ "$(ls ./ConfigPacksVault/playbook/)" ]; then
-  echo "importing playbook vault locked config packs"
+  echo "Importing playbook vault locked config packs"
   cp -R ./ConfigPacksVault/playbook/. ./Ansible/instances/$uuid/configpacks
   playbookpackvault=true
 else
-  echo "no vault locked config packs found in playbook config packs"
+  echo "No vault locked config packs found in playbook config packs"
   playbookpackvault=false
 fi
 
@@ -331,7 +331,7 @@ fi
 
 if  $playbookpackvault && $basepackvault
 then
-  echo "both vaults active"
+  echo "Both vaults active"
   ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml
 else
   if $playbookpackvault
@@ -341,10 +341,10 @@ else
   else
     if $basepackvault
     then
-      echo "base vault active"
+      echo "Base vault active"
       ansible-playbook --vault-id basevault@prompt  playbook.yml
     else
-      echo "no vault active"
+      echo "No vault active"
       ansible-playbook playbook.yml
     fi
   fi 
