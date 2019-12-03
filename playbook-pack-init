@@ -77,8 +77,8 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.0.6
-PBPCompatVersion: >2.x.1
+PBPVersion: 2.0.7
+PBPCompatVersion: >2.0.7
 
 EOF
 
@@ -122,12 +122,6 @@ printf "."
 if ! [ -x "$(command -v cat)" ]; then
   echo ""
   echo 'Error: cat is not installed.' >&2
-  exit 1
-fi
-printf "."
-if ! [ -x "$(command -v sshpass)" ]; then
-  echo ""
-  echo 'Error: sshpass is not installed.' >&2
   exit 1
 fi
 printf "."
