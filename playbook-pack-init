@@ -77,7 +77,7 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.0.7
+PBPVersion: 2.0.8
 PBPCompatVersion: >2.0.7
 
 EOF
@@ -357,8 +357,11 @@ cat << 'EOF' > ./README.md
 
  - rpl
  - bash
+ - python3-pip
+ 
+### pip installed
+
  - ansible
- - python2-pip
 ---
 please use the Launcher script in this folder to access the functions of this playbook pack
 
