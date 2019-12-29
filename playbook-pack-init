@@ -527,7 +527,7 @@ playbookfolder="`dirname \"$0\"`"
 playbookfolder="`( cd \"$playbookfolder\" && pwd )`"
 playbookfoldername="$(basename "$playbookfolder" )"
 
-cd $playbookfolder
+cd "$playbookfolder"
 
 mkdir ../../instances/$uuid
 echo "Importing base files/folders"
