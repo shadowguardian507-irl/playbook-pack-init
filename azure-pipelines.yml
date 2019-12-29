@@ -34,6 +34,9 @@ steps:
 - script: ls
   workingDirectory: ./test/Ansible/templates
   displayName: 'list templates dir'
-- script: ./Ansible/templates/playbook/playbook.pb.sh
-  workingDirectory: ./test
+- script: ls
+  workingDirectory: ./test/Ansible/templates/playbook
+  displayName: 'list playbook dir'
+- script: ./playbook.pb.sh
+  workingDirectory: ./test/Ansible/templates/playbook
   displayName: 'run the test playbook pack'
