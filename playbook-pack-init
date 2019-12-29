@@ -529,7 +529,6 @@ playbookfoldername="$(basename "$playbookfolder" )"
 
 cd $playbookfolder
 
-echo "scriptdir = "$playbookfolder
 mkdir ../../instances/$uuid
 echo "Importing base files/folders"
 cp -R ../base/.  ../../instances/$uuid
