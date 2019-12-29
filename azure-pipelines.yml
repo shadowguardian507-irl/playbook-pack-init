@@ -2,6 +2,7 @@
 
 trigger:
 - master
+- unstable
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -27,6 +28,6 @@ steps:
 - script: ls
   workingDirectory: ./test
   displayName: 'list working dir'
-- script: ./Playbook.sh
+- script: ./Ansible/templates/playbook/playbook.pb.sh
   workingDirectory: ./test
   displayName: 'run the test playbook pack'
