@@ -522,9 +522,14 @@ cat << 'EOF' > ./Ansible/templates/playbook/playbook.pb.sh
 echo "Building ansible instance folder structure ....."
 uuid=$(uuidgen)
 uuid=${uuid^^}
-playbookfolder=$(pwd)
+
+playbookfolder="`dirname \"$0\"`"
+playbookfolder="`( cd \"$playbookfolder\" && pwd )`"
 playbookfoldername="$(basename "$playbookfolder" )"
 
+cd $playbookfolder
+
+echo "scriptdir = "$playbookfolder
 mkdir ../../instances/$uuid
 echo "Importing base files/folders"
 cp -R ../base/.  ../../instances/$uuid
@@ -554,6 +559,10 @@ else
   echo "No vault locked config packs found in playbook config packs"
   playbookpackvault=false
 fi
+
+echo "protecting ansible instance ....."
+
+chmod -R 750 ../../instances/$uuid/
 
 echo "Accessing ansible instance ....."
 
