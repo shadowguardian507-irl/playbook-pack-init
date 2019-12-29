@@ -514,9 +514,9 @@ touch ./Ansible/templates/playbook/config-items/.gitkeep
 
 echo "running stage 4"
 
-touch ./Ansible/playbook/playbook.sh
-chmod +x ./Ansible/playbook/playbook.sh
-cat << 'EOF' > ./Ansible/playbook/playbook.sh
+touch ./Ansible/templates/playbook/playbook.sh
+chmod +x ./Ansible/templates/playbook/playbook.sh
+cat << 'EOF' > ./Ansible/templates/playbook/playbook.sh
 
 #!/bin/bash
 echo "Building ansible instance folder structure ....."
