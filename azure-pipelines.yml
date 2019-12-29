@@ -2,6 +2,7 @@
 
 trigger:
 - master
+- unstable
 
 pool:
   vmImage: 'ubuntu-latest'
