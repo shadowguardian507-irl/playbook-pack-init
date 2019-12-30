@@ -338,6 +338,201 @@ done
 
 EOF
 
+
+touch ./addplaybook.sh
+chmod +x ./addplaybook.sh
+
+cat << 'EOFA' > ./addplaybook.sh
+
+  AUTORUN=false
+  while getopts ":n:h:" opt; do
+
+    case $opt in
+      n)
+        playbookname=${OPTARG}
+        echo "playbook name set to = $playbookname"
+        AUTORUN=true
+      ;;
+      h)
+        echo ''
+        echo ' option flags are'
+        echo ''
+        echo ' -n nameofplaybook'
+        echo ' above option result in no confirm prompts please use with care'
+        echo ''
+        echo ' -h shows this help message' >&2
+        exit 1
+      ;;
+      *)
+        echo ''
+        echo 'valid option flags are as follows'
+        echo ''
+        echo ' -a (auto run)'
+        echo ' -y (yes)'
+        echo ' -s (scripting mode)'
+        echo ' all above options result in no confirm prompts please use with care'
+        echo ''
+        echo ' -h (help)' >&2
+        exit 1
+    esac
+  done
+
+
+  if $AUTORUN
+  then
+    echo "auto run enabled by flag creating specified playbook"
+  else
+
+    while true; do
+      read -p "add playbook to pack ? (Y/N) " yn
+      case $yn in
+        [Yy]* ) echo "processing" ; break;;
+        [Nn]* ) echo "aborting creation of playbook"; exit;;
+        * ) echo "Please answer y or n.";;
+      esac
+    done
+    IINITLOOP=true
+    while $IINITLOOP; do
+      read -p "what is the playbook name ? " playbookname
+
+      while true; do
+        read -p "playbook name set to - $playbookname - is this correct? (Y/N)" ynb
+        case $ynb in
+          [Yy]* ) echo "processing"; IINITLOOP=false; break;;
+          [Nn]* ) echo "retrying"; break;;
+              * ) echo "Please answer y or n.";;
+        esac
+      done
+
+    done
+
+  fi
+  echo "makeing folder structures"
+  mkdir "./ConfigPacks/$playbookname"
+  mkdir "./ConfigPacksVault/$playbookname"
+  touch "./ConfigPacks/$playbookname/.gitkeep"
+  touch "./ConfigPacksVault/$playbookname/.gitkeep"
+
+  mkdir "./Ansible/templates/$playbookname"
+
+  mkdir "./Ansible/templates/$playbookname/group_vars"
+  mkdir "./Ansible/templates/$playbookname/host_vars"
+  mkdir "./Ansible/templates/$playbookname/library"
+  mkdir "./Ansible/templates/$playbookname/module_utils"
+  mkdir "./Ansible/templates/$playbookname/filter_plugins"
+  mkdir "./Ansible/templates/$playbookname/roles"
+  mkdir "./Ansible/templates/$playbookname/software-to-install"
+  mkdir "./Ansible/templates/$playbookname/target-scripts"
+  mkdir "./Ansible/templates/$playbookname/config-items"
+
+  touch "./Ansible/templates/$playbookname/group_vars/.gitkeep"
+  touch "./Ansible/templates/$playbookname/host_vars/.gitkeep"
+  touch "./Ansible/templates/$playbookname/library/.gitkeep"
+  touch "./Ansible/templates/$playbookname/module_utils/.gitkeep"
+  touch "./Ansible/templates/$playbookname/filter_plugins/.gitkeep"
+  touch "./Ansible/templates/$playbookname/roles/.gitkeep"
+  touch "./Ansible/templates/$playbookname/software-to-install/.gitkeep"
+  touch "./Ansible/templates/$playbookname/target-scripts/.gitkeep"
+  touch "./Ansible/templates/$playbookname/config-items/.gitkeep"
+
+
+
+  touch "./Ansible/templates/$playbookname/playbook.pb.sh"
+  chmod +x "./Ansible/templates/$playbookname/playbook.pb.sh"
+
+  touch "./Ansible/templates/$playbookname/playbook.yml"
+  touch "./Ansible/templates/$playbookname/requirements.yml"
+cat << 'EOFB' > "./Ansible/templates/$playbookname/playbook.pb.sh"
+
+#!/bin/bash
+echo "Building ansible instance folder structure ....."
+uuid=$(uuidgen)
+uuid=${uuid^^}
+
+playbookfolder="`dirname \"$0\"`"
+playbookfolder="`( cd \"$playbookfolder\" && pwd )`"
+playbookfoldername="$(basename "$playbookfolder" )"
+
+cd "$playbookfolder"
+
+mkdir ../../instances/$uuid
+echo "Importing base files/folders"
+cp -R ../base/.  ../../instances/$uuid
+echo "Importing playbook spersific files/folders"
+cp -R -f "$playbookfolder/."  ../../instances/$uuid
+
+mkdir ../../instances/$uuid/configpacks
+echo "Importing base config packs"
+cp -R ../../../ConfigPacks/base/. ../../instances/$uuid/configpacks
+echo "Importing playbook config packs"
+cp -R "../../../ConfigPacks/$playbookfoldername/". ../../instances/$uuid/configpacks
+
+if [ "$(ls ../../../ConfigPacksVault/base/)" ]; then
+  echo "Importing base vault locked config packs"
+  cp -R ../../../ConfigPacksVault/base/. ../../instances/$uuid/configpacks
+  basepackvault=true
+else
+  echo "No vault locked config packs found in base config packs"
+  basepackvault=false
+fi
+
+if [ "$(ls "../../../ConfigPacksVault/$playbookfoldername/")" ]; then
+  echo "Importing playbook vault locked config packs"
+  cp -R "../../../ConfigPacksVault/$playbookfoldername/." ../../instances/$uuid/configpacks
+  playbookpackvault=true
+else
+  echo "No vault locked config packs found in playbook config packs"
+  playbookpackvault=false
+fi
+
+echo "protecting ansible instance ....."
+
+chmod -R 750 ../../instances/$uuid/
+
+echo "Accessing ansible instance ....."
+
+cd ../../instances/$uuid/
+
+if [ -f ./requirements.yml ]
+then
+  if [ -s ./requirements.yml ]
+  then
+    echo "Loading required modules"
+    ansible-galaxy install -r requirements.yml --roles-path=roles
+  else
+    echo "No modules to load"
+  fi
+else
+  echo "No modules file defined"
+fi
+
+if  $playbookpackvault && $basepackvault
+then
+  echo "Both vaults active"
+  ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml
+else
+  if $playbookpackvault
+  then
+    echo "playbook vault active"
+    ansible-playbook --vault-id playbookvault@prompt  playbook.yml
+  else
+    if $basepackvault
+    then
+      echo "Base vault active"
+      ansible-playbook --vault-id basevault@prompt  playbook.yml
+    else
+      echo "No vault active"
+      ansible-playbook playbook.yml
+    fi
+  fi 
+fi
+
+cd ../../../
+rm -rf ./Ansible/instances/$uuid/
+
+EOFB
+EOFA
+
 cat << 'EOF' > ./README.md
 # Ansible Playbook pack to ............
 ======
@@ -365,14 +560,11 @@ touch ./Ansible/instances/.gitkeep
 touch ./Ansible/templates/.gitkeep
 
 mkdir ./ConfigPacks/base
-mkdir ./ConfigPacks/playbook
 mkdir ./ConfigPacksVault/base
-mkdir ./ConfigPacksVault/playbook
 
 touch ./ConfigPacks/base/.gitkeep
-touch ./ConfigPacks/playbook/.gitkeep
 touch ./ConfigPacksVault/base/.gitkeep
-touch ./ConfigPacksVault/playbook/.gitkeep
+
 
 touch ./Plugins/PluginsLauncher.sh
 chmod +x ./Plugins/PluginsLauncher.sh
@@ -525,121 +717,9 @@ touch ./Ansible/templates/base/software-to-install/.gitkeep
 touch ./Ansible/templates/base/target-scripts/.gitkeep
 touch ./Ansible/templates/base/config-items/.gitkeep
 
-mkdir ./Ansible/templates/playbook
 
-mkdir ./Ansible/templates/playbook/group_vars
-mkdir ./Ansible/templates/playbook/host_vars
-mkdir ./Ansible/templates/playbook/library
-mkdir ./Ansible/templates/playbook/module_utils
-mkdir ./Ansible/templates/playbook/filter_plugins
-mkdir ./Ansible/templates/playbook/roles
-mkdir ./Ansible/templates/playbook/software-to-install
-mkdir ./Ansible/templates/playbook/target-scripts
-mkdir ./Ansible/templates/playbook/config-items
-
-touch ./Ansible/templates/playbook/group_vars/.gitkeep
-touch ./Ansible/templates/playbook/host_vars/.gitkeep
-touch ./Ansible/templates/playbook/library/.gitkeep
-touch ./Ansible/templates/playbook/module_utils/.gitkeep
-touch ./Ansible/templates/playbook/filter_plugins/.gitkeep
-touch ./Ansible/templates/playbook/roles/.gitkeep
-touch ./Ansible/templates/playbook/software-to-install/.gitkeep
-touch ./Ansible/templates/playbook/target-scripts/.gitkeep
-touch ./Ansible/templates/playbook/config-items/.gitkeep
 
 echo "running stage 4"
-
-touch ./Ansible/templates/playbook/playbook.pb.sh
-chmod +x ./Ansible/templates/playbook/playbook.pb.sh
-cat << 'EOF' > ./Ansible/templates/playbook/playbook.pb.sh
-
-#!/bin/bash
-echo "Building ansible instance folder structure ....."
-uuid=$(uuidgen)
-uuid=${uuid^^}
-
-playbookfolder="`dirname \"$0\"`"
-playbookfolder="`( cd \"$playbookfolder\" && pwd )`"
-playbookfoldername="$(basename "$playbookfolder" )"
-
-cd "$playbookfolder"
-
-mkdir ../../instances/$uuid
-echo "Importing base files/folders"
-cp -R ../base/.  ../../instances/$uuid
-echo "Importing playbook spersific files/folders"
-cp -R -f "$playbookfolder/."  ../../instances/$uuid
-
-mkdir ../../instances/$uuid/configpacks
-echo "Importing base config packs"
-cp -R ../../../ConfigPacks/base/. ../../instances/$uuid/configpacks
-echo "Importing playbook config packs"
-cp -R "../../../ConfigPacks/$playbookfoldername/". ../../instances/$uuid/configpacks
-
-if [ "$(ls ../../../ConfigPacksVault/base/)" ]; then
-  echo "Importing base vault locked config packs"
-  cp -R ../../../ConfigPacksVault/base/. ../../instances/$uuid/configpacks
-  basepackvault=true
-else
-  echo "No vault locked config packs found in base config packs"
-  basepackvault=false
-fi
-
-if [ "$(ls "../../../ConfigPacksVault/$playbookfoldername/")" ]; then
-  echo "Importing playbook vault locked config packs"
-  cp -R "../../../ConfigPacksVault/$playbookfoldername/." ../../instances/$uuid/configpacks
-  playbookpackvault=true
-else
-  echo "No vault locked config packs found in playbook config packs"
-  playbookpackvault=false
-fi
-
-echo "protecting ansible instance ....."
-
-chmod -R 750 ../../instances/$uuid/
-
-echo "Accessing ansible instance ....."
-
-cd ../../instances/$uuid/
-
-if [ -f ./requirements.yml ]
-then
-  if [ -s ./requirements.yml ]
-  then
-    echo "Loading required modules"
-    ansible-galaxy install -r requirements.yml --roles-path=roles
-  else
-    echo "No modules to load"
-  fi
-else
-  echo "No modules file defined"
-fi
-
-if  $playbookpackvault && $basepackvault
-then
-  echo "Both vaults active"
-  ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  playbook.yml
-else
-  if $playbookpackvault
-  then
-    echo "playbook vault active"
-    ansible-playbook --vault-id playbookvault@prompt  playbook.yml
-  else
-    if $basepackvault
-    then
-      echo "Base vault active"
-      ansible-playbook --vault-id basevault@prompt  playbook.yml
-    else
-      echo "No vault active"
-      ansible-playbook playbook.yml
-    fi
-  fi 
-fi
-
-cd ../../../
-rm -rf ./Ansible/instances/$uuid/
-
-EOF
 
 touch ./Ansible/templates/base/ansible.cfg
 
@@ -669,6 +749,7 @@ cat << 'EOF' > ./Ansible/templates/base/hosts
 EOF
 
 echo "running stage 5 - example playbook and data"
+./addplaybook.sh -n playbook
 
 touch ./Ansible/templates/playbook/playbook.yml
 cat << 'EOF' > ./Ansible/templates/playbook/playbook.yml
