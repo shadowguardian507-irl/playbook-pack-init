@@ -137,11 +137,8 @@ TERMINAL=$(tty) #Gather current terminal session for appropriate redirection
 HEIGHT=20
 WIDTH=76
 DIALOG_CANCEL=1
-DIALOG_ESC=255                                                                                                                                                                                                                               CHOICE_HEIGHT=16
-BACKTITLE="Back_Title"
-TITLE="Dynamic Dialog"
-MENU="Choose a file:"
-
+DIALOG_ESC=255
+CHOICE_HEIGHT=16
 
 #start of menu
 
