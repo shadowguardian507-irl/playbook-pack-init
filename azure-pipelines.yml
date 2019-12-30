@@ -28,6 +28,15 @@ steps:
 - script: ls
   workingDirectory: ./test
   displayName: 'list working dir'
-- script: ./Playbook.sh
-  workingDirectory: ./test
+- script: ls
+  workingDirectory: ./test/Ansible
+  displayName: 'list Ansible dir'
+- script: ls
+  workingDirectory: ./test/Ansible/templates
+  displayName: 'list templates dir'
+- script: ls
+  workingDirectory: ./test/Ansible/templates/playbook
+  displayName: 'list playbook dir'
+- script: ./playbook.pb.sh
+  workingDirectory: ./test/Ansible/templates/playbook
   displayName: 'run the test playbook pack'
