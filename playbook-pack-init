@@ -179,17 +179,22 @@ while true; do
 
   done < <(find ./Ansible/templates/ -maxdepth 2 -type f -name *.pb.sh)
 
+  #build fixed commandsets and menu options
+  menuoptiontostore="add new playbook to pack"
+  options+=($i "$menuoptiontostore" )
+  commands[$i]='./addplaybook.sh'
+  ((i=i+1))
+  menuoptiontostore="Manage Ansible Vault encoded files"
+  options+=($i "$menuoptiontostore" )
+  commands[$i]='./Vaultmgmt.sh'
+  ((i=i+1))
+  menuoptiontostore="Access Plugins - needs git access to plugin repos"
+  options+=($i "$menuoptiontostore" )
+  commands[$i]='./Plugins/PluginsLauncher.sh'
+  ((i=i+1))
+  
+  
 
-
-  #build fixed commandsets last 2 options
-
-  commands[$((i+1))]='./Vaultmgmt.sh'
-  commands[$((i+2))]='./Plugins/PluginsLauncher.sh'
-  #build fixed menu components
-  options+=($((i+1))
-           "Manage Ansible Vault encoded files"
-           $((i+2))
-           "Access Plugins - needs git access to plugin repos")
 
   #Build the menu with dynamic content
   selection=$(dialog --clear \
