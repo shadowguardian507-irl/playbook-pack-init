@@ -175,13 +175,12 @@ while true; do
     #command array (what to run for an option)
     commandtostore="'${line}' ${pausecommand}"
     commands[$i]=$commandtostore
-
     ((i=i+1))
 
   done < <(find ./Ansible/templates/ -maxdepth 2 -type f -name *.pb.sh)
 
   #build fixed commandsets and menu options
-  menuoptiontostore="add new playbook to pack"
+  menuoptiontostore="Add new playbook to pack"
   optionsb+=($i "$menuoptiontostore" )
   commands[$i]='./addplaybook.sh'
   ((i=i+1))
@@ -193,9 +192,6 @@ while true; do
   optionsb+=($i "$menuoptiontostore" )
   commands[$i]='./Plugins/PluginsLauncher.sh'
   ((i=i+1))
-  
-  
-
 
   #Build the menu with dynamic content
   selection=$(dialog --clear \
@@ -257,7 +253,6 @@ display_result() {
 #loop to keep menu on return from execution of task
 while true; do
 
-
   #reset arrays
   options=()
   commands=()
@@ -311,9 +306,7 @@ while true; do
     
     ((i=i+1))  
 
-
   done < <(find ./Ansible/templates/ -maxdepth 1 -type d | grep -v base | sed -n '1!p')
-
 
   #Build the menu with dynamic content
   selection=$(dialog --clear \
@@ -345,7 +338,6 @@ while true; do
 done
 
 EOF
-
 
 touch ./addplaybook.sh
 chmod +x ./addplaybook.sh
@@ -384,7 +376,6 @@ cat << 'EOFA' > ./addplaybook.sh
         exit 1
     esac
   done
-
 
   if $AUTORUN
   then
@@ -442,8 +433,6 @@ cat << 'EOFA' > ./addplaybook.sh
   touch "./Ansible/templates/$playbookname/software-to-install/.gitkeep"
   touch "./Ansible/templates/$playbookname/target-scripts/.gitkeep"
   touch "./Ansible/templates/$playbookname/config-items/.gitkeep"
-
-
 
   touch "./Ansible/templates/$playbookname/playbook.pb.sh"
   chmod +x "./Ansible/templates/$playbookname/playbook.pb.sh"
@@ -558,7 +547,6 @@ cat << 'EOF' > ./README.md
 please use the Launcher script in this folder to access the functions of this playbook pack
 
 EOF
-
 
 echo "running stage 2"
 mkdir ./Ansible/instances
@@ -724,8 +712,6 @@ touch ./Ansible/templates/base/roles/.gitkeep
 touch ./Ansible/templates/base/software-to-install/.gitkeep
 touch ./Ansible/templates/base/target-scripts/.gitkeep
 touch ./Ansible/templates/base/config-items/.gitkeep
-
-
 
 echo "running stage 4"
 
