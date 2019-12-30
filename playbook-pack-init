@@ -76,7 +76,7 @@ touch ./Plugins/.gitkeep
 touch ./playbookpack.meta
 cat << 'EOF' > ./playbookpack.meta
 
-PBPVersion: 2.1.0
+PBPVersion: 2.3.0
 PBPCompatVersion: >2.1.0
 
 EOF
