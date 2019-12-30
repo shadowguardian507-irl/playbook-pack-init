@@ -286,7 +286,7 @@ while true; do
     menuoptiontostore="create vault for $playbookfolder"
     options+=($i "$menuoptiontostore" )
     
-    commandtostore="env EDITOR=nano ansible-vault create --vault-id playbookvault@prompt './ConfigPacksVault/${line}/playbookvault.yml'"
+    commandtostore="env EDITOR=nano ansible-vault create --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
 
     ((i=i+1))
@@ -294,14 +294,14 @@ while true; do
     menuoptiontostore="edit vault for $playbookfolder"
     options+=($i "$menuoptiontostore" )
     
-    commandtostore="env EDITOR=nano ansible-vault edit --vault-id playbookvault@prompt './ConfigPacksVault/${line}/playbookvault.yml'"
+    commandtostore="env EDITOR=nano ansible-vault edit --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
     
     ((i=i+1))
     menuoptiontostore="rekey vault for $playbookfolder"
     options+=($i "$menuoptiontostore" )
 
-    commandtostore="env EDITOR=nano ansible-vault rekey --vault-id playbookvault@prompt './ConfigPacksVault/${line}/playbookvault.yml'"
+    commandtostore="env EDITOR=nano ansible-vault rekey --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
     
     ((i=i+1))  
