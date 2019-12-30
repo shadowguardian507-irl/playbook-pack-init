@@ -156,12 +156,12 @@ while true; do
   options=()
   optionsb=()
   commands=()
+  i=1 #Index counter menu
 
   #build fixed command for 0
   commands[0]='echo "Program terminated."'
 
   #build dynamic menu content arrays
-  i=3 #Index counter menu
   pausecommand=' && read -p "Press enter to return to the launcher menu"'
 
   while read line
