@@ -154,6 +154,7 @@ while true; do
 
   #reset arrays
   options=()
+  optionsb=()
   commands=()
 
   #build fixed command for 0
@@ -181,15 +182,15 @@ while true; do
 
   #build fixed commandsets and menu options
   menuoptiontostore="add new playbook to pack"
-  options+=($i "$menuoptiontostore" )
+  optionsb+=($i "$menuoptiontostore" )
   commands[$i]='./addplaybook.sh'
   ((i=i+1))
   menuoptiontostore="Manage Ansible Vault encoded files"
-  options+=($i "$menuoptiontostore" )
+  optionsb+=($i "$menuoptiontostore" )
   commands[$i]='./Vaultmgmt.sh'
   ((i=i+1))
   menuoptiontostore="Access Plugins - needs git access to plugin repos"
-  options+=($i "$menuoptiontostore" )
+  optionsb+=($i "$menuoptiontostore" )
   commands[$i]='./Plugins/PluginsLauncher.sh'
   ((i=i+1))
   
@@ -205,6 +206,8 @@ while true; do
                 --menu "Please select an option:"\
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${options[@]}" \
+                "" "----------" \
+                "${optionsb[@]}" \
                 2>&1 >$TERMINAL)
   exit_status=$?
   exec 3>&-
