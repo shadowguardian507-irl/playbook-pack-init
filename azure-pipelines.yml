@@ -47,7 +47,11 @@ steps:
   continueOnError: false
   displayName: 'reinstall to use'
 
-- script: test -e ./usr/bin/playbook_init
+- script: ls
+  workingDirectory: /usr/bin
+  displayName: 'install dir scripts'
+
+- script: test -e /usr/bin/playbook_init
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -55,7 +59,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook_update
+- script: test -e /usr/bin/playbook_update
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -63,7 +67,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook_pack_init
+- script: test -e /usr/bin/playbook_pack_init
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -71,7 +75,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook_pack_update
+- script: test -e /usr/bin/playbook_pack_update
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -79,7 +83,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook-init
+- script: test -e /usr/bin/playbook-init
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -87,7 +91,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook-update
+- script: test -e /usr/bin/playbook-update
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -95,7 +99,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook-pack-init
+- script: test -e /usr/bin/playbook-pack-init
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -103,7 +107,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/bin/playbook-pack-update
+- script: test -e /usr/bin/playbook-pack-update
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -111,7 +115,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/lib/playbook_toolkit/support_scripts/Launcher.sh
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/Launcher.sh
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -119,7 +123,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -127,7 +131,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
@@ -135,7 +139,7 @@ steps:
   continueOnError: false
   displayName: 'run shellcheck'
 
-- script: test -e ./usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh
   continueOnError: false
   displayName: 'check playbook-pack-init script is present'
 
