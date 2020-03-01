@@ -1,17 +1,10 @@
-
 #!/bin/bash
 DIALOG_CANCEL=1
 DIALOG_ESC=255
 HEIGHT=0
 WIDTH=0
 
-display_result() {
-  dialog --title "$1" \
-    --no-collapse \
-    --msgbox "$result" 0 0
-}
-
-cd ./Plugins
+cd ./Plugins || exit
 
 while true; do
   exec 3>&1

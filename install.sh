@@ -52,7 +52,7 @@ then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -p "do you wish to install this package ? (Y/N) " yn
+    read -r -p "do you wish to install this package ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;
@@ -60,14 +60,14 @@ else
     esac
   done
 fi
-ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
+ABSPATH=$(readlink -f "$0")
+ABSDIR=$(dirname "$ABSPATH")
 # (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
 # put user runnable scripts in /usr/bin 
-cp $ABSDIR/core_scripts/playbook_init.sh /usr/bin/playbook_init
-cp $ABSDIR/core_scripts/playbook_update.sh /usr/bin/playbook_update
-cp $ABSDIR/core_scripts/playbook_pack_init.sh /usr/bin/playbook_pack_init
-cp $ABSDIR/core_scripts/playbook_pack_update.sh /usr/bin/playbook_pack_update
+cp "$ABSDIR"/core_scripts/playbook_init.sh /usr/bin/playbook_init
+cp "$ABSDIR"/core_scripts/playbook_update.sh /usr/bin/playbook_update
+cp "$ABSDIR"/core_scripts/playbook_pack_init.sh /usr/bin/playbook_pack_init
+cp "$ABSDIR"/core_scripts/playbook_pack_update.sh /usr/bin/playbook_pack_update
 
 # make user runnable scripts executable
 chmod +x /usr/bin/playbook_init
@@ -88,13 +88,13 @@ mkdir /var/lib/playbook_toolkit/default_files
 mkdir /var/lib/playbook_toolkit/example_data
 
 # put scripts and default/resource files in place
-cp -R $ABSDIR/support_scripts/* /usr/lib/playbook_toolkit/support_scripts
-cp -R $ABSDIR/default_files/*  /var/lib/playbook_toolkit/default_files
-cp -R $ABSDIR/example_data/*  /var/lib/playbook_toolkit/example_data
+cp -R "$ABSDIR"/support_scripts/* /usr/lib/playbook_toolkit/support_scripts
+cp -R "$ABSDIR"/default_files/*  /var/lib/playbook_toolkit/default_files
+cp -R "$ABSDIR"/example_data/*  /var/lib/playbook_toolkit/example_data
 
 # tag meta
-cp $ABSDIR/meta/playbook_init.meta /usr/lib/playbook_toolkit/playbook_init.meta
-cp $ABSDIR/meta/playbook_pack_init.meta /usr/lib/playbook_toolkit/playbook_pack_init.meta
+cp "$ABSDIR"/meta/playbook_init.meta /usr/lib/playbook_toolkit/playbook_init.meta
+cp "$ABSDIR"/meta/playbook_pack_init.meta /usr/lib/playbook_toolkit/playbook_pack_init.meta
 
 
 

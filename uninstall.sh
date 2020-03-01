@@ -52,7 +52,7 @@ then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -p "do you wish to remove this package ? (Y/N) " yn
+    read -r -p "do you wish to remove this package ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;
@@ -60,8 +60,6 @@ else
     esac
   done
 fi
-ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
 # (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
 # remove user runnable scripts in /usr/bin 
 rm -f /usr/bin/playbook_init

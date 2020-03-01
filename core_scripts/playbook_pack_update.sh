@@ -47,7 +47,7 @@ then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -p "do you wish to continue ? (Y/N) " yn
+    read -r -p "do you wish to continue ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;
@@ -55,21 +55,7 @@ else
     esac
   done
 fi
-echo "running stage 1"
-mkdir ./Ansible
-mkdir ./Resources
-mkdir ./ConfigPacks
-mkdir ./ConfigPacksVault
-mkdir ./Plugins
-
-touch ./README.md
-touch ./Launcher.sh
-touch ./Vaultmgmt.sh
-touch ./Ansible/.gitkeep
-touch ./Resources/.gitkeep
-touch ./ConfigPacks/.gitkeep
-touch ./ConfigPacksVault/.gitkeep
-touch ./Plugins/.gitkeep
+echo "running update"
 
 cp /usr/lib/playbook_toolkit/playbook_pack_init.meta ./playbookpack.meta
 
@@ -78,12 +64,6 @@ chmod +x ./Launcher.sh
 
 cp /usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh ./Vaultmgmt.sh
 chmod +x ./Vaultmgmt.sh
-
-cp /usr/lib/playbook_toolkit/support_scripts/playbook_init.sh ./playbook_init.sh
-chmod +x ./playbook_init.sh
-
-
-echo "running stage 2"
 
 cp /usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh ./Plugins/PluginsLauncher.sh
 chmod +x ./Plugins/PluginsLauncher.sh

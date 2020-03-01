@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
+ABSPATH=$(readlink -f "$0")
+ABSDIR=$(dirname "$ABSPATH")
 ABSPATHNOEXT=${ABSPATH%%.*}
 SCRIPTNAMENOEXT=${ABSPATHNOEXT##*/}
 
@@ -12,27 +12,26 @@ if test -f "$ABSDIR/../../../playbookpack.meta"; then
   uuid=$(uuidgen)
   uuid=${uuid^^}
 
-  playbookfolder="`dirname \"$0\"`"
-  playbookfolder="`( cd \"$playbookfolder\" && pwd )`"
+  playbookfolder=$ABSDIR
   playbookfoldername="$(basename "$playbookfolder" )"
 
-  cd "$playbookfolder"
+  cd "$playbookfolder" || exit
 
-  mkdir ../../instances/$uuid
+  mkdir "../../instances/$uuid"
   echo "Importing base files/folders"
-  cp -R ../base/.  ../../instances/$uuid
+  cp -R ../base/.  "../../instances/$uuid"
   echo "Importing playbook spersific files/folders"
-  cp -R -f "$playbookfolder/."  ../../instances/$uuid
+  cp -R -f "$playbookfolder/."  "../../instances/$uuid"
 
-  mkdir ../../instances/$uuid/configpacks
+  mkdir "../../instances/$uuid/configpacks"
   echo "Importing base config packs"
-  cp -R ../../../ConfigPacks/base/. ../../instances/$uuid/configpacks
+  cp -R ../../../ConfigPacks/base/. "../../instances/$uuid/configpacks"
   echo "Importing playbook config packs"
-  cp -R "../../../ConfigPacks/$playbookfoldername/". ../../instances/$uuid/configpacks
+  cp -R "../../../ConfigPacks/$playbookfoldername/". "../../instances/$uuid/configpacks"
 
   if [ "$(ls ../../../ConfigPacksVault/base/)" ]; then
     echo "Importing base vault locked config packs"
-    cp -R ../../../ConfigPacksVault/base/. ../../instances/$uuid/configpacks
+    cp -R ../../../ConfigPacksVault/base/. "../../instances/$uuid/configpacks"
     basepackvault=true
   else
     echo "No vault locked config packs found in base config packs"
@@ -41,7 +40,7 @@ if test -f "$ABSDIR/../../../playbookpack.meta"; then
 
   if [ "$(ls "../../../ConfigPacksVault/$playbookfoldername/")" ]; then
     echo "Importing playbook vault locked config packs"
-    cp -R "../../../ConfigPacksVault/$playbookfoldername/." ../../instances/$uuid/configpacks
+    cp -R "../../../ConfigPacksVault/$playbookfoldername/." "../../instances/$uuid/configpacks"
     playbookpackvault=true
   else
     echo "No vault locked config packs found in playbook config packs"
@@ -50,11 +49,11 @@ if test -f "$ABSDIR/../../../playbookpack.meta"; then
 
   echo "protecting ansible instance ....."
 
-  chmod -R 750 ../../instances/$uuid/
+  chmod -R 750 "../../instances/$uuid/"
 
   echo "Accessing ansible instance ....."
 
-  cd ../../instances/$uuid/
+  cd "../../instances/$uuid/" || exit
 # endof playbook pack only section
 fi
 
@@ -76,20 +75,20 @@ if test -f "$ABSDIR/../../../playbookpack.meta"; then
   if  $playbookpackvault && $basepackvault
   then
     echo "Both vaults active"
-    ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt  $SCRIPTNAMENOEXT.yml
+    ansible-playbook --vault-id basevault@prompt --vault-id playbookvault@prompt "$SCRIPTNAMENOEXT.yml"
   else
     if $playbookpackvault
     then
       echo "playbook vault active"
-      ansible-playbook --vault-id playbookvault@prompt  $SCRIPTNAMENOEXT.yml
+      ansible-playbook --vault-id playbookvault@prompt  "$SCRIPTNAMENOEXT.yml"
     else
       if $basepackvault
       then
         echo "Base vault active"
-        ansible-playbook --vault-id basevault@prompt  $SCRIPTNAMENOEXT.yml
+        ansible-playbook --vault-id basevault@prompt  "$SCRIPTNAMENOEXT.yml"
       else
         echo "No vault active"
-        ansible-playbook $SCRIPTNAMENOEXT.yml
+        ansible-playbook "$SCRIPTNAMENOEXT.yml"
       fi
     fi 
   fi
@@ -99,18 +98,18 @@ else
   if [ "$(ls "./group_vars/vault/")" ]; then
     echo "vault locked file(s) found please enter vault id string"
     echo "eg. --vault-id basevault@prompt --vault-id playbookvault@prompt"
-    read -p "" vaultstring
-    ansible-playbook $vaultstring $SCRIPTNAMENOEXT.yml
+    read -r -p "" vaultstring
+    ansible-playbook "$vaultstring $SCRIPTNAMENOEXT.yml"
   else
     echo "No vault active"
-    ansible-playbook $SCRIPTNAMENOEXT.yml
+    ansible-playbook "$SCRIPTNAMENOEXT.yml"
   fi
   # endof non-paybookpack section
 fi
 
 # check to see if being run from playbook pack
 if test -f "$ABSDIR/../../../playbookpack.meta"; then
-  cd ../../../
-  rm -rf ./Ansible/instances/$uuid/
+  cd ../../../ || exit
+  rm -rf "./Ansible/instances/$uuid/"
 fi
 # endof playbook pack only section

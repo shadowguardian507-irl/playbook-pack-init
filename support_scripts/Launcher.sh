@@ -2,6 +2,12 @@
 
 echo "checking host system compatablity"
 printf "."
+if ! [ -x "$(command -v playbook_init)" ]; then
+  echo ""
+  echo 'Error: playbook toolkit is not installed, please download from https://github.com/shadowguardian507-irl/playbook-pack-init and install.' >&2
+  exit 1
+fi
+printf "."
 if ! [ -x "$(command -v dialog)" ]; then
   echo ""
   echo 'Error: dialog is not installed.' >&2
@@ -56,12 +62,6 @@ CHOICE_HEIGHT=16
 
 #start of menu
 
-display_result() {
-  dialog --title "$1" \
-    --no-collapse \
-    --msgbox "$result" 0 0
-}
-
 #loop to keep menu on return from execution of task
 while true; do
 
@@ -78,7 +78,7 @@ while true; do
   #build dynamic menu content arrays
   pausecommand=' && read -p "Press enter to return to the launcher menu"'
 
-  while read line
+  while read -r line
   do
     #option array (for dialog menu)
     playbookfolder="$(basename "$(dirname "$line")" )"
@@ -91,7 +91,7 @@ while true; do
     commands[$i]=$commandtostore
     ((i=i+1))
 
-  done < <(find ./Ansible/templates/ -maxdepth 2 -type f -name *.pb.sh)
+  done < <(find ./Ansible/templates/ -maxdepth 2 -type f -name "*.pb.sh")
 
   #build fixed commandsets and menu options
   menuoptiontostore="Add new playbook to pack"
@@ -118,7 +118,7 @@ while true; do
                 "${options[@]}" \
                 "" "----------" \
                 "${optionsb[@]}" \
-                2>&1 >$TERMINAL)
+                2>&1 >"$TERMINAL")
   exit_status=$?
   exec 3>&-
   case $exit_status in

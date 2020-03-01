@@ -41,7 +41,7 @@ if test -f "$(pwd)/playbookpack.meta"; then
   else
 
     while true; do
-      read -p "add playbook to pack ? (Y/N) " yn
+      read -r -p "add playbook to pack ? (Y/N) " yn
       case $yn in
         [Yy]* ) echo "processing" ; break;;
         [Nn]* ) echo "aborting creation of playbook"; exit;;
@@ -50,10 +50,10 @@ if test -f "$(pwd)/playbookpack.meta"; then
     done
     IINITLOOP=true
     while $IINITLOOP; do
-      read -p "what is the playbook name ? " playbookname
+      read -r -p "what is the playbook name ? " playbookname
 
       while true; do
-        read -p "playbook name set to - $playbookname - is this correct? (Y/N)" ynb
+        read -r -p "playbook name set to - $playbookname - is this correct? (Y/N)" ynb
         case $ynb in
           [Yy]* ) echo "processing"; IINITLOOP=false; break;;
           [Nn]* ) echo "retrying"; break;;
@@ -96,10 +96,10 @@ if test -f "$(pwd)/playbookpack.meta"; then
   touch "./Ansible/templates/$playbookname/target-scripts/.gitkeep"
   touch "./Ansible/templates/$playbookname/config-items/.gitkeep"
 
-  cp /usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh ./Ansible/templates/$playbookname/playbook.pb.sh
+  cp /usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh ./Ansible/templates/"$playbookname"/playbook.pb.sh
   chmod +x "./Ansible/templates/$playbookname/playbook.pb.sh"
 
-  cp /usr/lib/playbook_toolkit/playbook_pack_init.meta ./Ansible/templates/$playbookname/playbook_init.meta
+  cp /usr/lib/playbook_toolkit/playbook_pack_init.meta ./Ansible/templates/"$playbookname"/playbook_init.meta
 
   touch "./Ansible/templates/$playbookname/playbook.yml"
   touch "./Ansible/templates/$playbookname/requirements.yml"
@@ -112,7 +112,7 @@ else
   else
 
     while true; do
-      read -p "make playbook folder structure in current folder ' $(pwd) ' ? (Y/N) " yn
+      read -r -p "make playbook folder structure in current folder ' $(pwd) ' ? (Y/N) " yn
       case $yn in
         [Yy]* ) echo "processing" ; break;;
         [Nn]* ) echo "aborting creation of playbook"; exit;;

@@ -47,7 +47,7 @@ then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -p "do you wish to continue ? (Y/N) " yn
+    read -r -p "do you wish to continue ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;

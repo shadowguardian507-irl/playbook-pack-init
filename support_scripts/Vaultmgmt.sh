@@ -13,12 +13,6 @@ CHOICE_HEIGHT=16
 
 #start of menu
 
-display_result() {
-  dialog --title "$1" \
-    --no-collapse \
-    --msgbox "$result" 0 0
-}
-
 #loop to keep menu on return from execution of task
 while true; do
 
@@ -47,7 +41,7 @@ while true; do
 
   #build dynamic menu content arrays
   
-  while read line
+  while read -r line
   do
     #option array (for dialog menu)
     playbookfolder="$(basename "$line")"
@@ -86,7 +80,7 @@ while true; do
                 --menu "Please select an option:"\
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${options[@]}" \
-                2>&1 >$TERMINAL)
+                2>&1 >"$TERMINAL")
   exit_status=$?
   exec 3>&-
   case $exit_status in
@@ -102,6 +96,6 @@ while true; do
       ;;
   esac
   clear
-  eval ${commands[$selection]}
+  eval "${commands[$selection]}"
 
 done

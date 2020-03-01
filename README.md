@@ -6,18 +6,18 @@
 
 ### Install
 
-> clone this repo to a folder on your system
-> run the install.sh script in the root of the repository
+* clone this repo to a folder on your system
+* run the install.sh script in the root of the repository
 
 ### Uninstall (app only, retain support dirs incase you added things to them)
 
-> clone this repo to a folder on your system
-> run the uninstall.sh script in the root of the repository
+* clone this repo to a folder on your system
+* run the uninstall.sh script in the root of the repository
 
 ### Full/Purge Uninstall (all installed file and folders, even if you added to them)
 
-> clone this repo to a folder on your system
-> run the uninstall_purge.sh script in the root of the repository
+* clone this repo to a folder on your system
+* run the uninstall_purge.sh script in the root of the repository
 
 ## using the tool kit
 
@@ -31,18 +31,18 @@ The command ' playbook_pack_update ' or ' playbook-pack-update '
 will update a playbook pack in the current directory, to the currently system installed script versions  
   
 note the ".pb.sh" files in each playbook folder will not be updated by this command,  
-if you want to update those then run the command ' playbook_update ' or ' playbook-update ',
+if you want to update those then run the command ' playbook_update ' or ' playbook-update ',  
 in each playbook folder of the pack
 
 ## Tool kit dependencies
 
 The following apps need to be installed for the tool kit to fully function
-> dialog
-> ansible-vault
-> ansible-galaxy
-> ansible-playbook
-> rpl
-> cat
+* dialog
+* ansible-vault
+* ansible-galaxy
+* ansible-playbook
+* rpl
+* cat
 
 ## Examples of use
 
