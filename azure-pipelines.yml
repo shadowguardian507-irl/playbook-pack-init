@@ -178,7 +178,7 @@ steps:
 - script: mkdir testpb
   continueOnError: false
   displayName: 'make test dir'
-- script: playbook_init -a
+- script: playbook_init -a y
   workingDirectory: ./testpb
   displayName: 'run playbook-init script'
 - script: ls

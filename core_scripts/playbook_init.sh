@@ -1,6 +1,6 @@
 #!/bin/bash
   AUTORUN=false
-  while getopts ":n;a:h:" opt; do
+  while getopts ":n:a:h:" opt; do
 
     case $opt in
       n)
@@ -20,7 +20,7 @@
         echo ''
         echo ' option flags are'
         echo ''
-        echo ' -a    (only valid if not in playbook pack) '
+        echo ' -a y  (only valid if not in playbook pack) '
         echo ' -n nameofplaybook'
         echo ' above option result in no confirm prompts please use with care'
         echo ''
@@ -31,7 +31,7 @@
         echo ''
         echo ' option flags are'
         echo ''
-        echo ' -a    (only valid if not in playbook pack) '
+        echo ' -a y   (only valid if not in playbook pack) '
         echo ' -n nameofplaybook'
         echo ' above option result in no confirm prompts please use with care'
         echo ''
