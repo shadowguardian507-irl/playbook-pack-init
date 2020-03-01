@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+  - name: include var config packs
+    include_vars:
+      dir: configpacks
+      extensions: 
+            - yml
+      ignore_files: .gitkeep
+
+  - name: IP list
+    debug:
+      msg:  "{{ iploader.ip_cidr }}"
+    loop: "{{ serveriplist }}"
+    loop_control:
+      loop_var: iploader

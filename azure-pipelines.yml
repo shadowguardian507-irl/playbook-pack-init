@@ -8,35 +8,183 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: ls
-  displayName: 'list working dir'
-- script: test -e ./playbook-pack-init
-  continueOnError: false
-  displayName: 'check playbook-pack-init script is present'
 - script: shellcheck -V
   continueOnError: false
   displayName: 'show shellcheck version'
-- script: shellcheck playbook-pack-init
+
+- script: ls
+  displayName: 'list working dir'
+
+- script: shellcheck install.sh
   continueOnError: false
   displayName: 'run shellcheck'
-- script: mkdir test
+
+- script: shellcheck install.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: shellcheck install.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: sudo ./install.sh -a
+  continueOnError: false
+  displayName: 'check install runs'
+
+- script: sudo ./uninstall.sh -a
+  continueOnError: false
+  displayName: 'check uninstall runs'
+
+- script: sudo ./install.sh -a
+  continueOnError: false
+  displayName: 'reinstall for further checks'
+
+- script: sudo ./uninstall_purge.sh -a
+  continueOnError: false
+  displayName: 'check uninstall runs'
+
+- script: sudo ./install.sh -a
+  continueOnError: false
+  displayName: 'reinstall to use'
+
+- script: ls
+  workingDirectory: /usr/bin
+  displayName: 'install dir scripts'
+
+- script: test -e /usr/bin/playbook_init
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook_init
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook_update
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook_update
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook_pack_init
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook_pack_init
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook_pack_update
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook_pack_update
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook-init
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook-init
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook-update
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook-update
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook-pack-init
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook-pack-init
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/bin/playbook-pack-update
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/bin/playbook-pack-update
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/Launcher.sh
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/lib/playbook_toolkit/support_scripts/Launcher.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/lib/playbook_toolkit/support_scripts/playbook.pb.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: test -e /usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh
+  continueOnError: false
+  displayName: 'check playbook-pack-init script is present'
+
+- script: shellcheck /usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh
+  continueOnError: false
+  displayName: 'run shellcheck'
+
+- script: mkdir testpbp
   continueOnError: false
   displayName: 'make test dir'
-- script: ../playbook-pack-init -s
-  workingDirectory: ./test
-  displayName: 'run playbook-pack-init script'
+- script: playbook_pack_init -s
+  workingDirectory: ./testpbp
+  displayName: 'run playbook_pack_init script'
 - script: ls
-  workingDirectory: ./test
+  workingDirectory: ./testpbp
   displayName: 'list working dir'
 - script: ls
-  workingDirectory: ./test/Ansible
+  workingDirectory: ./testpbp/Ansible
   displayName: 'list Ansible dir'
 - script: ls
-  workingDirectory: ./test/Ansible/templates
+  workingDirectory: ./testpbp/Ansible/templates
   displayName: 'list templates dir'
 - script: ls
-  workingDirectory: ./test/Ansible/templates/playbook
+  workingDirectory: ./testpbp/Ansible/templates/playbook
   displayName: 'list playbook dir'
+
+- script: test -e ./playbook.pb.sh
+  continueOnError: false
+  workingDirectory: ./testpbp/Ansible/templates/playbook
+  displayName: 'check playbook.pb.sh script is present'
+
 - script: ./playbook.pb.sh
-  workingDirectory: ./test/Ansible/templates/playbook
+  workingDirectory: ./testpbp/Ansible/templates/playbook
   displayName: 'run the test playbook pack'
+
+- script: mkdir testpb
+  continueOnError: false
+  displayName: 'make test dir'
+- script: playbook_init -a y
+  workingDirectory: ./testpb
+  displayName: 'run playbook-init script'
+- script: ls
+  workingDirectory: ./testpb
+  displayName: 'list working dir'
+- script: test -e ./playbook.pb.sh
+  continueOnError: false
+  workingDirectory: ./testpb
+  displayName: 'check playbook.pb.sh script is present'
