@@ -8,10 +8,19 @@
         echo "playbook name set to = $playbookname"
         AUTORUN=true
       ;;
+      a)
+        if test -f "$(pwd)/playbookpack.meta"; then
+          echo 'running in playbook pack so -a not valid'
+          exit;;
+        else
+          AUTORUN=true
+        fi
+      ;;
       h)
         echo ''
         echo ' option flags are'
         echo ''
+        echo ' -a    (only valid if not in playbook pack) '
         echo ' -n nameofplaybook'
         echo ' above option result in no confirm prompts please use with care'
         echo ''
@@ -22,6 +31,7 @@
         echo ''
         echo ' option flags are'
         echo ''
+        echo ' -a    (only valid if not in playbook pack) '
         echo ' -n nameofplaybook'
         echo ' above option result in no confirm prompts please use with care'
         echo ''
