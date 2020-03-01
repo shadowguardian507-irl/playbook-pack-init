@@ -1,6 +1,6 @@
 #!/bin/bash
   AUTORUN=false
-  while getopts ":n:h:" opt; do
+  while getopts ":n;a:h:" opt; do
 
     case $opt in
       n)
@@ -11,7 +11,7 @@
       a)
         if test -f "$(pwd)/playbookpack.meta"; then
           echo 'running in playbook pack so -a not valid'
-          exit;;
+          exit
         else
           AUTORUN=true
         fi
