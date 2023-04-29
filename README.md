@@ -19,6 +19,11 @@
 * clone this repo to a folder on your system
 * run the uninstall_purge.sh script in the root of the repository
 
+### Mac support
+
+Follow the steps as in the linux sections above, but use the scripts postfixed with `-mac` instead.  
+Note this has only been tested on intel macs (as I don't have an arm based unit to try it on)
+
 ## using the tool kit
 
 To make a new playbook pack run the command ' playbook_pack_init ' or ' playbook-pack-init '  
