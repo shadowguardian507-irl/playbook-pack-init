@@ -60,20 +60,20 @@ else
     esac
   done
 fi
-# (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
+
 # remove user runnable scripts in /usr/bin 
-rm -f /usr/bin/playbook_init
-rm -f /usr/bin/playbook_update
-rm -f /usr/bin/playbook_pack_init
-rm -f /usr/bin/playbook_pack_update
+rm -f /usr/local/bin/playbook_init
+rm -f /usr/local/bin/playbook_update
+rm -f /usr/local/bin/playbook_pack_init
+rm -f /usr/local/bin/playbook_pack_update
 # backward compat cleanout
-rm -f /usr/bin/playbook-init
-rm -f /usr/bin/playbook-update
-rm -f /usr/bin/playbook-pack-init
-rm -f /usr/bin/playbook-pack-update
+rm -f /usr/local/bin/playbook-init
+rm -f /usr/local/bin/playbook-update
+rm -f /usr/local/bin/playbook-pack-init
+rm -f /usr/local/bin/playbook-pack-update
 
 # remove supporting folders (scripts only)
-rm -rf /usr/lib/playbook_toolkit
+rm -rf /usr/local/lib/playbook_toolkit
 
 
 

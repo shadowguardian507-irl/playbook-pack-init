@@ -45,14 +45,14 @@ while getopts "yash" opt; do
   esac
 
 done
-echo "playbook-pack-init and playbook-init toolkit uninstaller (Program only)"
+echo "playbook-pack-init and playbook-init toolkit uninstaller 'Purge/Full remove' mode"
 
 if $AUTORUN
 then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -r -p "do you wish to remove this package ? (Y/N) " yn
+    read -r -p "do you wish to install this package ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;
@@ -62,18 +62,19 @@ else
 fi
 # (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
 # remove user runnable scripts in /usr/bin 
-rm -f /usr/bin/playbook_init
-rm -f /usr/bin/playbook_update
-rm -f /usr/bin/playbook_pack_init
-rm -f /usr/bin/playbook_pack_update
+rm -f /usr/local/bin/playbook_init
+rm -f /usr/local/bin/playbook_update
+rm -f /usr/local/bin/playbook_pack_init
+rm -f /usr/local/bin/playbook_pack_update
 # backward compat cleanout
-rm -f /usr/bin/playbook-init
-rm -f /usr/bin/playbook-update
-rm -f /usr/bin/playbook-pack-init
-rm -f /usr/bin/playbook-pack-update
+rm -f /usr/local/bin/playbook-init
+rm -f /usr/local/bin/playbook-update
+rm -f /usr/local/bin/playbook-pack-init
+rm -f /usr/local/bin/playbook-pack-update
 
-# remove supporting folders (scripts only)
-rm -rf /usr/lib/playbook_toolkit
+# remove supporting folders
+rm -rf /usr/local/lib/playbook_toolkit
+rm -rf /var/lib/playbook_toolkit
 
 
 

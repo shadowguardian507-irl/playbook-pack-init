@@ -1,8 +1,4 @@
 #!/bin/bash
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
-   exit 1
-fi
 AUTORUN=false
 while getopts "yash" opt; do
 
@@ -45,14 +41,13 @@ while getopts "yash" opt; do
   esac
 
 done
-echo "playbook-pack-init and playbook-init toolkit uninstaller (Program only)"
-
+echo "initialising playbook update in $(pwd)"
 if $AUTORUN
 then
   echo "auto run enabled by flag"
 else
   while true; do
-    read -r -p "do you wish to remove this package ? (Y/N) " yn
+    read -r -p "do you wish to continue ? (Y/N) " yn
     case $yn in
         [Yy]* ) echo processing ; break;;
         [Nn]* ) exit;;
@@ -60,20 +55,10 @@ else
     esac
   done
 fi
-# (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
-# remove user runnable scripts in /usr/bin 
-rm -f /usr/bin/playbook_init
-rm -f /usr/bin/playbook_update
-rm -f /usr/bin/playbook_pack_init
-rm -f /usr/bin/playbook_pack_update
-# backward compat cleanout
-rm -f /usr/bin/playbook-init
-rm -f /usr/bin/playbook-update
-rm -f /usr/bin/playbook-pack-init
-rm -f /usr/bin/playbook-pack-update
+  cp /usr/local/lib/playbook_toolkit/support_scripts/playbook.pb.sh ./playbook.pb.sh
+  chmod +x "./playbook.pb.sh"
 
-# remove supporting folders (scripts only)
-rm -rf /usr/lib/playbook_toolkit
+  cp /usr/local/lib/playbook_toolkit/playbook_init.meta ./playbook.meta
 
 
 
