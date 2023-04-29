@@ -122,12 +122,12 @@ while true; do
   exit_status=$?
   exec 3>&-
   case $exit_status in
-    $DIALOG_CANCEL)
+    "$DIALOG_CANCEL")
       clear
       echo "Program terminated."
       exit
       ;;
-    $DIALOG_ESC)
+    "$DIALOG_ESC")
       clear
       echo "Program aborted." >&2
       exit 1
