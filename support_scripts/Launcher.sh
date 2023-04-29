@@ -84,7 +84,7 @@ while true; do
     playbookfolder="$(basename "$(dirname "$line")" )"
     filenamefull="$(basename "$line")"
     menuoptiontostore="Run $playbookfolder - $(echo "$filenamefull" | cut -f 1 -d '.')"
-    options+=($i "$menuoptiontostore" )
+    options+=("$i" "$menuoptiontostore" )
 
     #command array (what to run for an option)
     commandtostore="'${line}' ${pausecommand}"
@@ -95,15 +95,15 @@ while true; do
 
   #build fixed commandsets and menu options
   menuoptiontostore="Add new playbook to pack"
-  optionsb+=($i "$menuoptiontostore" )
+  optionsb+=("$i" "$menuoptiontostore" )
   commands[$i]='playbook_init'
   ((i=i+1))
   menuoptiontostore="Manage Ansible Vault encoded files"
-  optionsb+=($i "$menuoptiontostore" )
+  optionsb+=("$i" "$menuoptiontostore" )
   commands[$i]='./Vaultmgmt.sh'
   ((i=i+1))
   menuoptiontostore="Access Plugins - needs git access to plugin repos"
-  optionsb+=($i "$menuoptiontostore" )
+  optionsb+=("$i" "$menuoptiontostore" )
   commands[$i]='./Plugins/PluginsLauncher.sh'
   ((i=i+1))
 
