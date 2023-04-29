@@ -61,6 +61,7 @@ mkdir ./Resources
 mkdir ./ConfigPacks
 mkdir ./ConfigPacksVault
 mkdir ./Plugins
+mkdir ./roles
 
 touch ./README.md
 touch ./Launcher.sh
@@ -70,6 +71,7 @@ touch ./Resources/.gitkeep
 touch ./ConfigPacks/.gitkeep
 touch ./ConfigPacksVault/.gitkeep
 touch ./Plugins/.gitkeep
+touch ./roles/.gitkeep
 
 cp /usr/local/lib/playbook_toolkit/playbook_pack_init.meta ./playbookpack.meta
 
