@@ -63,10 +63,12 @@ fi
 # (ref http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html)
 # remove user runnable scripts in /usr/bin 
 rm -f /usr/bin/playbook_init
+rm -f /usr/bin/playbook_update
 rm -f /usr/bin/playbook_pack_init
 rm -f /usr/bin/playbook_pack_update
 # backward compat cleanout
 rm -f /usr/bin/playbook-init
+rm -f /usr/bin/playbook-update
 rm -f /usr/bin/playbook-pack-init
 rm -f /usr/bin/playbook-pack-update
 

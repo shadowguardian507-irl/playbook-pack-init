@@ -71,12 +71,12 @@ touch ./ConfigPacks/.gitkeep
 touch ./ConfigPacksVault/.gitkeep
 touch ./Plugins/.gitkeep
 
-cp /usr/lib/playbook_toolkit/playbook_pack_init.meta ./playbookpack.meta
+cp /usr/local/lib/playbook_toolkit/playbook_pack_init.meta ./playbookpack.meta
 
-cp /usr/lib/playbook_toolkit/support_scripts/Launcher.sh ./Launcher.sh
+cp /usr/local/lib/playbook_toolkit/support_scripts/Launcher.sh ./Launcher.sh
 chmod +x ./Launcher.sh
 
-cp /usr/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh ./Vaultmgmt.sh
+cp /usr/local/lib/playbook_toolkit/support_scripts/Vaultmgmt.sh ./Vaultmgmt.sh
 chmod +x ./Vaultmgmt.sh
 
 cp /var/lib/playbook_toolkit/default_files/defaultplaybookreadme.md ./README.md
@@ -95,7 +95,7 @@ touch ./ConfigPacks/base/.gitkeep
 touch ./ConfigPacksVault/base/.gitkeep
 
 
-cp /usr/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh ./Plugins/PluginsLauncher.sh
+cp /usr/local/lib/playbook_toolkit/support_scripts/PluginsLauncher.sh ./Plugins/PluginsLauncher.sh
 chmod +x ./Plugins/PluginsLauncher.sh
 
 echo "running stage 3"
