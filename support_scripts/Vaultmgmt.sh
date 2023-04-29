@@ -30,13 +30,13 @@ while true; do
 
   #build fixed menu options
   menuoptiontostore="create vault for base vault"
-  options+=($i "$menuoptiontostore" )
+  options+=("$i" "$menuoptiontostore" )
   ((i=i+1))
   menuoptiontostore="edit vault for base vault"
-  options+=($i "$menuoptiontostore" )
+  options+=("$i" "$menuoptiontostore" )
   ((i=i+1))
   menuoptiontostore="rekey vault for base vault"
-  options+=($i "$menuoptiontostore" )
+  options+=("$i" "$menuoptiontostore" )
   ((i=i+1))
 
   #build dynamic menu content arrays
@@ -47,7 +47,7 @@ while true; do
     playbookfolder="$(basename "$line")"
 
     menuoptiontostore="create vault for $playbookfolder"
-    options+=($i "$menuoptiontostore" )
+    options+=("$i" "$menuoptiontostore" )
     
     commandtostore="env EDITOR=nano ansible-vault create --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
@@ -55,14 +55,14 @@ while true; do
     ((i=i+1))
 
     menuoptiontostore="edit vault for $playbookfolder"
-    options+=($i "$menuoptiontostore" )
+    options+=("$i" "$menuoptiontostore" )
     
     commandtostore="env EDITOR=nano ansible-vault edit --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
     
     ((i=i+1))
     menuoptiontostore="rekey vault for $playbookfolder"
-    options+=($i "$menuoptiontostore" )
+    options+=("$i" "$menuoptiontostore" )
 
     commandtostore="env EDITOR=nano ansible-vault rekey --vault-id playbookvault@prompt './ConfigPacksVault/${playbookfolder}/playbookvault.yml'"
     commands[$i]=$commandtostore
@@ -84,12 +84,12 @@ while true; do
   exit_status=$?
   exec 3>&-
   case $exit_status in
-    $DIALOG_CANCEL)
+    "$DIALOG_CANCEL")
       clear
       echo "Program terminated."
       exit
       ;;
-    $DIALOG_ESC)
+    "$DIALOG_ESC")
       clear
       echo "Program aborted." >&2
       exit 1
